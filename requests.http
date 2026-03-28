@@ -1,0 +1,87 @@
+### Test api endpoints
+
+### Variables
+@baseUrl = http://localhost:8080
+@auth = Basic YWRtaW46ZXNnLWFkbWluLTIwMjQ=
+# above is base64 of "admin:esg-admin-2024"
+@companyId = put_real_company_id_here
+@companyId2 = put_second_real_company_id_here
+@methodologyId = put_real_methodology_id_here
+
+# ---- COMPANIES ----
+
+### Get all companies
+GET {{baseUrl}}/api/companies
+
+### Get a single company (replace id)
+GET {{baseUrl}}/api/companies/{{companyId}}
+
+### Create a company (requires auth)
+POST {{baseUrl}}/api/companies
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+  "name": "Test Corp",
+  "ticker": "TEST",
+  "sector": "Technology",
+  "country": "USA"
+}
+
+# ---- METRICS ----
+
+### Get metrics for a company (replace id)
+GET {{baseUrl}}/api/metrics/company/{{companyId}}
+
+### Add a metric (requires auth)
+POST {{baseUrl}}/api/metrics
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+  "companyId": "{{companyId}}",
+  "metricName": "carbon_emissions",
+  "value": 74.0,
+  "year": 2024
+}
+
+# ---- METHODOLOGIES ----
+
+### Get all methodologies
+GET {{baseUrl}}/api/methodologies
+
+### Create a new methodology (requires auth)
+POST {{baseUrl}}/api/methodologies
+Authorization: {{auth}}
+Content-Type: application/json
+
+{
+  "name": "Custom",
+  "description": "Equal weight across all pillars",
+  "environmentalWeight": 0.33,
+  "socialWeight": 0.33,
+  "governanceWeight": 0.34
+}
+
+### Activate a methodology (requires auth, replace id)
+PUT {{baseUrl}}/api/methodologies/{{methodologyId}}/activate
+Authorization: {{auth}}
+
+# ---- SCORES ----
+
+### Score all companies (requires auth)
+POST {{baseUrl}}/api/scores/score-all
+Authorization: {{auth}}
+
+### Score a single company (requires auth, replace id)
+POST {{baseUrl}}/api/scores/company/{{companyId}}
+Authorization: {{auth}}
+
+### Get latest score for a company (replace id)
+GET {{baseUrl}}/api/scores/company/{{companyId}}
+
+### Get leaderboard
+GET {{baseUrl}}/api/scores/leaderboard
+
+### Compare companies (replace ids)
+GET {{baseUrl}}/api/scores/compare?ids={{companyId}},{{companyId2}}
