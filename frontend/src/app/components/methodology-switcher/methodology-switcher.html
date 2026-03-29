@@ -1,6 +1,6 @@
 <div class="methodology-switcher">
   <h2>Scoring Methodology</h2>
-  <p class="subtitle">Switch the active methodology to see scores update across the leaderboard.</p>
+  <p class="subtitle">Switch the active methodology to see scores update across the leaderboard, or create your own below.</p>
 
   <div *ngIf="loading" class="loading">Loading methodologies...</div>
 
@@ -46,6 +46,95 @@
           <span class="weight-pct">{{ (m.governanceWeight * 100).toFixed(0) }}%</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="create-section">
+    <h3>Create Custom Methodology</h3>
+
+    <div class="form-group">
+      <label>Name</label>
+      <input
+        type="text"
+        [(ngModel)]="newName"
+        placeholder="e.g. Climate-First"
+        class="text-input" />
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <input
+        type="text"
+        [(ngModel)]="newDescription"
+        placeholder="Describe the focus of this methodology"
+        class="text-input" />
+    </div>
+
+    <div class="sliders">
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label e-label">Environmental</span>
+          <span class="slider-pct">{{ eWeight }}%</span>
+        </div>
+        <input
+          type="range" min="0" max="100" step="1"
+          [(ngModel)]="eWeight"
+          (ngModelChange)="onEChange()"
+          class="slider e-slider" />
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label s-label">Social</span>
+          <span class="slider-pct">{{ sWeight }}%</span>
+        </div>
+        <input
+          type="range" min="0" max="100" step="1"
+          [(ngModel)]="sWeight"
+          (ngModelChange)="onSChange()"
+          class="slider s-slider" />
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label g-label">Governance</span>
+          <span class="slider-pct">{{ gWeight }}%</span>
+        </div>
+        <input
+          type="range" min="0" max="100" step="1"
+          [(ngModel)]="gWeight"
+          (ngModelChange)="onGChange()"
+          class="slider g-slider" />
+      </div>
+
+      <div class="weight-total" [class.valid]="weightTotal === 100" [class.invalid]="weightTotal !== 100">
+        Total: {{ weightTotal }}% <span *ngIf="weightTotal !== 100">(must equal 100%)</span>
+        <span *ngIf="weightTotal === 100">✓</span>
+      </div>
+
+      <div class="weight-preview" *ngIf="weightTotal === 100">
+        <div class="preview-bar">
+          <div class="preview-e" [style.width.%]="eWeight" title="Environmental {{ eWeight }}%"></div>
+          <div class="preview-s" [style.width.%]="sWeight" title="Social {{ sWeight }}%"></div>
+          <div class="preview-g" [style.width.%]="gWeight" title="Governance {{ gWeight }}%"></div>
+        </div>
+        <div class="preview-legend">
+          <span class="legend-e">E {{ eWeight }}%</span>
+          <span class="legend-s">S {{ sWeight }}%</span>
+          <span class="legend-g">G {{ gWeight }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        class="create-btn"
+        [disabled]="!canCreate()"
+        (click)="create()">
+        Create Methodology
+      </button>
+      <span *ngIf="createSuccess" class="success-msg">✓ Created successfully</span>
+      <span *ngIf="createError" class="error-msg">Something went wrong</span>
     </div>
   </div>
 </div>

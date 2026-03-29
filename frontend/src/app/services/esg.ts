@@ -90,6 +90,10 @@ export class EsgService {
     return this.http.put<ScoringMethodology>(`${this.baseUrl}/methodologies/${id}/activate`, {}, { headers: this.authHeaders });
   }
 
+  createMethodology(methodology: ScoringMethodology): Observable<ScoringMethodology> {
+  return this.http.post<ScoringMethodology>(`${this.baseUrl}/methodologies`, methodology, { headers: this.authHeaders });
+}
+
   // Metrics
   getMetrics(companyId: string): Observable<RawMetric[]> {
     return this.http.get<RawMetric[]>(`${this.baseUrl}/metrics/company/${companyId}`);
