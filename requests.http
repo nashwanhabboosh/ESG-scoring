@@ -4,7 +4,7 @@
 @baseUrl = http://localhost:8080
 @auth = Basic YWRtaW46ZXNnLWFkbWluLTIwMjQ=
 # above is base64 of "admin:esg-admin-2024"
-@companyId = put_real_company_id_here
+@companyId = 69c961dfe3e5df4fe618c9e2
 @companyId2 = put_second_real_company_id_here
 @methodologyId = put_real_methodology_id_here
 
@@ -79,6 +79,9 @@ Authorization: {{auth}}
 
 ### Get latest score for a company (replace id)
 GET {{baseUrl}}/api/scores/company/{{companyId}}
+
+### Get score history for a company (replace id)
+GET {{baseUrl}}/api/scores/company/{{companyId}}/history
 
 ### Get leaderboard
 GET {{baseUrl}}/api/scores/leaderboard

@@ -13,7 +13,7 @@ type View = 'leaderboard' | 'company' | 'methodology';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class AppComponent {
+export class App {
   currentView: View = 'leaderboard';
   selectedCompanyId: string | null = null;
 

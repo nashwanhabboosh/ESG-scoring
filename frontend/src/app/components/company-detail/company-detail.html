@@ -55,6 +55,13 @@
     </div>
   </div>
 
+  <div *ngIf="!loading && history.length > 0" class="chart-section">
+    <h3>Score History (24 Months)</h3>
+    <div class="chart-container">
+      <canvas #historyChart></canvas>
+    </div>
+  </div>
+
   <div *ngIf="!loading && metrics.length > 0" class="metrics">
     <h3>Raw Metrics (2024)</h3>
     <table>

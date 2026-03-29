@@ -31,6 +31,11 @@ public class ScoreController {
         return scoringService.scoreCompany(companyId);
     }
 
+    @GetMapping("/company/{companyID}/history")
+    public List<ESGScorecard> getScoreHistory(@PathVariable String companyID) {
+        return scorecardRepository.findByCompanyIdOrderByTimestampDesc(companyID);
+    }
+
     @PostMapping("/score-all")
     public List<ESGScorecard> scoreAll() {
         return scoringService.scoreAllCompanies();
