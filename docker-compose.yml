@@ -8,16 +8,30 @@ services:
       MONGO_INITDB_DATABASE: esgplatform
     volumes:
       - mongo-data:/data/db
-
-  app:
+    networks:
+      - esg-network
+  backend:
     build: .
-    container_name: esg-app
+    container_name: esg-backend
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/esgplatform
+      SPRING_MONGODB_URI: mongodb://mongodb:27017/esgplatform
     depends_on:
       - mongodb
-
+    networks:
+      - esg-network
+  frontend:
+    build: ./frontend
+    container_name: esg-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - esg-network
 volumes:
   mongo-data:
+networks:
+  esg-network:
+    driver: bridge

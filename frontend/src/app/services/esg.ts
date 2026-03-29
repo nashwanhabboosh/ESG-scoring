@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Company {
   id: string;
@@ -44,7 +45,7 @@ export interface RawMetric {
 })
 export class EsgService {
 
-  private baseUrl = 'http://localhost:8080/api';
+  private baseUrl = environment.apiUrl;
   private authHeaders = new HttpHeaders({
     Authorization: 'Basic ' + btoa('admin:esg-admin-2024')
   });
