@@ -1,0 +1,44 @@
+<div class="leaderboard">
+  <h2>ESG Leaderboard</h2>
+
+  <div class="filters">
+    <label>Sort by:</label>
+    <select (change)="onSortChange($event)">
+      <option value="compositeScore">Composite</option>
+      <option value="environmentalScore">Environmental</option>
+      <option value="socialScore">Social</option>
+      <option value="governanceScore">Governance</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading scores...</div>
+
+  <table *ngIf="!loading">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Company</th>
+        <th>Ticker</th>
+        <th>Sector</th>
+        <th>E</th>
+        <th>S</th>
+        <th>G</th>
+        <th>Composite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rankedRows; let i = index"
+          (click)="onSelectCompany(row.company.id)"
+          class="clickable">
+        <td>{{ i + 1 }}</td>
+        <td>{{ row.company.name }}</td>
+        <td>{{ row.company.ticker }}</td>
+        <td>{{ row.company.sector }}</td>
+        <td [class]="scoreClass(row.scorecard.environmentalScore)">{{ row.scorecard.environmentalScore }}</td>
+        <td [class]="scoreClass(row.scorecard.socialScore)">{{ row.scorecard.socialScore }}</td>
+        <td [class]="scoreClass(row.scorecard.governanceScore)">{{ row.scorecard.governanceScore }}</td>
+        <td [class]="scoreClass(row.scorecard.compositeScore)"><strong>{{ row.scorecard.compositeScore }}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

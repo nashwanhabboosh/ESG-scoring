@@ -1,0 +1,49 @@
+.leaderboard {
+  padding: 24px;
+}
+
+.filters {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+select {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+tr.clickable:hover {
+  background-color: #f0f4ff;
+  cursor: pointer;
+}
+
+.score-high { color: #2e7d32; font-weight: 600; }
+.score-mid  { color: #f57c00; font-weight: 600; }
+.score-low  { color: #c62828; font-weight: 600; }
+
+.loading {
+  padding: 24px;
+  color: #666;
+}

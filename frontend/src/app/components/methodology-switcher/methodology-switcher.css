@@ -1,0 +1,109 @@
+.methodology-switcher {
+  padding: 24px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.methodology-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.methodology-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  transition: border-color 0.2s;
+}
+
+.methodology-card.active {
+  border-color: #1a1a2e;
+  background: #f8f9ff;
+}
+
+.methodology-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+h3 { margin: 0 0 4px 0; }
+
+.description {
+  color: #666;
+  font-size: 13px;
+  margin: 0;
+}
+
+.activate-btn {
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.activate-btn:hover { background: #2d2d5e; }
+
+.active-badge {
+  background: #2e7d32;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.weights {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.weight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.weight-label {
+  width: 110px;
+  font-size: 13px;
+  color: #444;
+}
+
+.weight-bar {
+  flex: 1;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.weight-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.e-fill { background: #2e7d32; }
+.s-fill { background: #1565c0; }
+.g-fill { background: #6a1b9a; }
+
+.weight-pct {
+  width: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.loading { padding: 24px; color: #666; }

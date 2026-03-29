@@ -1,0 +1,75 @@
+<div class="company-detail" *ngIf="company">
+  <button class="back-btn" (click)="onBack()">← Back to Leaderboard</button>
+
+  <div class="header">
+    <div>
+      <h2>{{ company.name }}</h2>
+      <span class="ticker">{{ company.ticker }}</span>
+      <span class="sector">{{ company.sector }}</span>
+      <span class="country">{{ company.country }}</span>
+    </div>
+    <button class="rescore-btn" (click)="rescore()">Rescore</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="!loading && scorecard" class="scores">
+    <div class="score-card">
+      <div class="score-label">Environmental</div>
+      <div class="score-value" [class]="scoreClass(scorecard.environmentalScore)">
+        {{ scorecard.environmentalScore }}
+      </div>
+      <div class="score-bar">
+        <div class="score-fill e-fill" [style.width.%]="scorecard.environmentalScore"></div>
+      </div>
+    </div>
+
+    <div class="score-card">
+      <div class="score-label">Social</div>
+      <div class="score-value" [class]="scoreClass(scorecard.socialScore)">
+        {{ scorecard.socialScore }}
+      </div>
+      <div class="score-bar">
+        <div class="score-fill s-fill" [style.width.%]="scorecard.socialScore"></div>
+      </div>
+    </div>
+
+    <div class="score-card">
+      <div class="score-label">Governance</div>
+      <div class="score-value" [class]="scoreClass(scorecard.governanceScore)">
+        {{ scorecard.governanceScore }}
+      </div>
+      <div class="score-bar">
+        <div class="score-fill g-fill" [style.width.%]="scorecard.governanceScore"></div>
+      </div>
+    </div>
+
+    <div class="score-card composite">
+      <div class="score-label">Composite Score</div>
+      <div class="score-value" [class]="scoreClass(scorecard.compositeScore)">
+        {{ scorecard.compositeScore }}
+      </div>
+      <div class="score-bar">
+        <div class="score-fill c-fill" [style.width.%]="scorecard.compositeScore"></div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && metrics.length > 0" class="metrics">
+    <h3>Raw Metrics (2024)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of metrics">
+          <td>{{ formatMetricName(m.metricName) }}</td>
+          <td>{{ m.value }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

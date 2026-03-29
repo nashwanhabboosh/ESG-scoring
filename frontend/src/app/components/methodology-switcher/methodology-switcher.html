@@ -1,0 +1,51 @@
+<div class="methodology-switcher">
+  <h2>Scoring Methodology</h2>
+  <p class="subtitle">Switch the active methodology to see scores update across the leaderboard.</p>
+
+  <div *ngIf="loading" class="loading">Loading methodologies...</div>
+
+  <div class="methodology-list" *ngIf="!loading">
+    <div *ngFor="let m of methodologies"
+         class="methodology-card"
+         [class.active]="m.active">
+
+      <div class="methodology-header">
+        <div>
+          <h3>{{ m.name }}</h3>
+          <p class="description">{{ m.description }}</p>
+        </div>
+        <button
+          *ngIf="!m.active"
+          class="activate-btn"
+          (click)="activate(m.id)">
+          Activate
+        </button>
+        <span *ngIf="m.active" class="active-badge">Active</span>
+      </div>
+
+      <div class="weights">
+        <div class="weight">
+          <span class="weight-label">Environmental</span>
+          <div class="weight-bar">
+            <div class="weight-fill e-fill" [style.width.%]="m.environmentalWeight * 100"></div>
+          </div>
+          <span class="weight-pct">{{ (m.environmentalWeight * 100).toFixed(0) }}%</span>
+        </div>
+        <div class="weight">
+          <span class="weight-label">Social</span>
+          <div class="weight-bar">
+            <div class="weight-fill s-fill" [style.width.%]="m.socialWeight * 100"></div>
+          </div>
+          <span class="weight-pct">{{ (m.socialWeight * 100).toFixed(0) }}%</span>
+        </div>
+        <div class="weight">
+          <span class="weight-label">Governance</span>
+          <div class="weight-bar">
+            <div class="weight-fill g-fill" [style.width.%]="m.governanceWeight * 100"></div>
+          </div>
+          <span class="weight-pct">{{ (m.governanceWeight * 100).toFixed(0) }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
