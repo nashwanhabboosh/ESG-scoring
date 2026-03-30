@@ -1,0 +1,172 @@
+<div class="portfolio">
+  <h2>Portfolio Analytics</h2>
+  <p class="subtitle">Build a weighted portfolio and analyse its ESG profile, score history, and risk metrics.</p>
+
+  <!-- BUILDER -->
+  <div class="builder">
+    <div class="holdings-list" *ngIf="holdings.length > 0">
+      <div class="holding-row" *ngFor="let h of holdings; let i = index">
+        <div class="holding-identity" [style.border-left-color]="COLORS[i]">
+          <span class="holding-ticker" [style.color]="COLORS[i]">{{ h.company.ticker }}</span>
+          <span class="holding-name">{{ h.company.name }}</span>
+        </div>
+        <div class="holding-weight-controls">
+          <input
+            type="range" min="0" max="100" step="1"
+            [(ngModel)]="h.weight"
+            (ngModelChange)="onSliderChange(h)"
+            class="weight-slider"
+            [style.accent-color]="COLORS[i]" />
+          <input
+            type="number" min="0" max="100"
+            [value]="h.weight"
+            (change)="onWeightInput(h, $any($event.target).value)"
+            class="weight-input" />
+          <span class="weight-pct">%</span>
+        </div>
+        <button class="remove-btn" (click)="removeHolding(h)">✕</button>
+      </div>
+    </div>
+
+    <div class="builder-footer" *ngIf="holdings.length > 0">
+      <div class="weight-total" [class.valid]="totalWeight === 100" [class.invalid]="totalWeight !== 100">
+        Total: {{ totalWeight }}%
+        <span *ngIf="totalWeight !== 100"> — must equal 100%</span>
+        <span *ngIf="totalWeight === 100"> ✓</span>
+      </div>
+      <button class="normalize-btn" (click)="autoNormalize()">Auto-normalize</button>
+    </div>
+
+    <div class="search-box" *ngIf="holdings.length < MAX_HOLDINGS">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Add a company by name or ticker..."
+        class="search-input" />
+      <div class="dropdown" *ngIf="searchQuery.length > 0">
+        <div
+          *ngFor="let c of filteredCompanies | slice:0:8"
+          class="dropdown-item"
+          (click)="selectCompany(c)">
+          <span class="dropdown-ticker">{{ c.ticker }}</span>
+          <span class="dropdown-name">{{ c.name }}</span>
+          <span class="dropdown-sector">{{ c.sector }}</span>
+        </div>
+        <div class="dropdown-empty" *ngIf="filteredCompanies.length === 0">No results</div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading portfolio data...</div>
+
+  <div *ngIf="!loading && isReady" class="analysis">
+
+    <!-- PORTFOLIO SCORECARD -->
+    <section class="section">
+      <h3>Portfolio ESG Scorecard</h3>
+      <div class="scorecard-grid">
+        <div class="score-card">
+          <div class="score-label">Environmental</div>
+          <div class="score-value" [class]="scoreClass(portfolioE)">{{ portfolioE }}</div>
+        </div>
+        <div class="score-card">
+          <div class="score-label">Social</div>
+          <div class="score-value" [class]="scoreClass(portfolioS)">{{ portfolioS }}</div>
+        </div>
+        <div class="score-card">
+          <div class="score-label">Governance</div>
+          <div class="score-value" [class]="scoreClass(portfolioG)">{{ portfolioG }}</div>
+        </div>
+        <div class="score-card composite">
+          <div class="score-label">Composite</div>
+          <div class="score-value" [class]="scoreClass(portfolioComposite)">{{ portfolioComposite }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTRIBUTION + HISTORY -->
+    <section class="section charts-section">
+      <div class="chart-panel">
+        <h3>Score Contribution by Holding</h3>
+        <p class="chart-sub">Weighted composite score contributed by each position</p>
+        <div class="donut-container">
+          <canvas #contributionChart></canvas>
+        </div>
+      </div>
+
+      <div class="chart-panel">
+        <div class="chart-header">
+          <div>
+            <h3>Portfolio Score History</h3>
+            <p class="chart-sub">24-month weighted composite score</p>
+          </div>
+          <button class="toggle-btn" (click)="toggleIndividualLines()">
+            {{ showIndividualLines ? 'Hide' : 'Show' }} individual holdings
+          </button>
+        </div>
+        <div class="line-container">
+          <canvas #historyChart></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- RISK METRICS -->
+    <section class="section">
+      <h3>Risk Metrics</h3>
+      <p class="chart-sub">Computed from the 24-month portfolio score time series</p>
+
+      <div class="risk-grid">
+        <div class="risk-card">
+          <div class="risk-label">Annualized Volatility</div>
+          <div class="risk-value">{{ riskMetrics.annualizedVolatility }}</div>
+          <div class="risk-desc">Std dev of monthly score changes × √12</div>
+        </div>
+        <div class="risk-card">
+          <div class="risk-label">3-Month Momentum</div>
+          <div class="risk-value" [class]="momentumClass(riskMetrics.threeMonthMomentum)">
+            {{ riskMetrics.threeMonthMomentum > 0 ? '+' : '' }}{{ riskMetrics.threeMonthMomentum }}
+          </div>
+          <div class="risk-desc">Score change over trailing 3 months</div>
+        </div>
+        <div class="risk-card">
+          <div class="risk-label">6-Month Momentum</div>
+          <div class="risk-value" [class]="momentumClass(riskMetrics.sixMonthMomentum)">
+            {{ riskMetrics.sixMonthMomentum > 0 ? '+' : '' }}{{ riskMetrics.sixMonthMomentum }}
+          </div>
+          <div class="risk-desc">Score change over trailing 6 months</div>
+        </div>
+        <div class="risk-card">
+          <div class="risk-label">Return / Volatility</div>
+          <div class="risk-value" [class]="momentumClass(riskMetrics.sharpeProxy)">
+            {{ riskMetrics.sharpeProxy }}
+          </div>
+          <div class="risk-desc">Total score gain ÷ annualized volatility</div>
+        </div>
+      </div>
+
+      <h4 class="sub-heading">ESG Score Volatility by Holding</h4>
+      <div class="vol-table">
+        <div class="vol-row header-row">
+          <span>Ticker</span>
+          <span>Annualized Volatility</span>
+          <span>Risk Level</span>
+        </div>
+        <div class="vol-row" *ngFor="let v of holdingVolatilities">
+          <span class="vol-ticker" [style.color]="v.color">{{ v.ticker }}</span>
+          <div class="vol-bar-container">
+            <div class="vol-bar" [style.width.%]="v.volatility * 5" [style.background]="v.color"></div>
+            <span class="vol-num">{{ v.volatility }}</span>
+          </div>
+          <span [class]="v.volatility > 8 ? 'score-low' : v.volatility > 4 ? 'score-mid' : 'score-high'">
+            {{ v.volatility > 8 ? 'High' : v.volatility > 4 ? 'Moderate' : 'Low' }}
+          </span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="placeholder" *ngIf="!loading && !isReady && holdings.length < 2">
+    <p>Add at least 2 companies and set weights summing to 100% to run portfolio analysis</p>
+  </div>
+</div>

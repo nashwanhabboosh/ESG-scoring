@@ -143,9 +143,8 @@ export class CompanyDetailComponent implements OnInit, AfterViewInit, OnDestroy 
         },
         scales: {
           y: {
-            min: 0,
-            max: 100,
-            ticks: { stepSize: 20 },
+            min: Math.max(0, Math.floor(Math.min(...this.history.map(s => Math.min(s.environmentalScore, s.socialScore, s.governanceScore, s.compositeScore))) / 10) * 10 - 10),
+            max: Math.min(100, Math.ceil(Math.max(...this.history.map(s => Math.max(s.environmentalScore, s.socialScore, s.governanceScore, s.compositeScore))) / 10) * 10 + 10),
             grid: { color: 'rgba(0,0,0,0.05)' }
           },
           x: {

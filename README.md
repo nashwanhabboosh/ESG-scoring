@@ -2,11 +2,30 @@
 
 A full-stack ESG (Environmental, Social, Governance) scoring platform built with Java, Spring Boot, Angular, MongoDB, and Docker. The platform scores and ranks companies across E, S, and G pillars using configurable weighted methodologies, and generates realistic historical score simulations using a Merton jump-diffusion model with sector-specific GBM drift and compound Poisson jumps — representing real corporate events such as emissions commitments, governance overhauls, and regulatory penalties.
 
+## Screenshots
+
+**Leaderboard** — sortable company rankings under the active scoring methodology
+![Leaderboard](assets/Leaderboard.png)
+
+**Company Detail** — per-pillar score cards with a 24-month score history chart driven by the jump-diffusion simulation
+![Company Detail](assets/Compare.png)
+
+**Sector Analytics** — aggregated E/S/G averages by sector with pillar distribution and company-level breakdowns
+![Sector Analytics](assets/Sector.png)
+
+**Portfolio Analytics** — weighted portfolio ESG scoring, score contribution by holding, 24-month history, and risk metrics including annualized volatility and momentum
+![Portfolio Analytics](assets/Portfolio.png)
+
+**Methodology Builder** — runtime methodology switching and custom E/S/G weight configuration with live preview
+![Methodology Builder](assets/Methodologies.png)
+
 ## Features
 
 - **Configurable scoring methodologies** — switch between predefined methodologies (MSCI-style, Sustainalytics-style) or build custom ones with adjustable E/S/G weightings at runtime
 - **Historical simulation** — 24 months of monthly scorecards per company generated via GBM with jump diffusion, anchored to research-grounded seed metrics
 - **Sector analytics** — aggregated E/S/G averages by sector with pillar distribution charts and company-level breakdowns
+- **Portfolio analytics** — weighted portfolio ESG scoring with annualized volatility, momentum indicators, and per-holding risk breakdown
+- **Company comparison** — side-by-side E/S/G score comparison across 2–3 companies with grouped bar charts
 - **Company detail views** — score history line charts, raw metric tables, and per-pillar score cards
 - **Leaderboard** — sortable ranking across all companies under the active methodology
 - **REST API** — full CRUD with role-based access control; GET endpoints are public, write endpoints require authentication

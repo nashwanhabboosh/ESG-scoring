@@ -5,14 +5,16 @@ import { CompanyDetailComponent } from './components/company-detail/company-deta
 import { MethodologySwitcherComponent } from './components/methodology-switcher/methodology-switcher';
 import { SectorAnalyticsComponent } from './components/sector-analytics/sector-analytics';
 import { CompanyComparisonComponent } from './components/company-comparison/company-comparison';
+import { PortfolioAnalyticsComponent } from './components/portfolio-analytics/portfolio-analytics';
 
-type View = 'leaderboard' | 'company' | 'methodology' | 'sectors' | 'comparison';
+type View = 'leaderboard' | 'company' | 'methodology' | 'sectors' | 'comparison' | 'portfolio';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LeaderboardComponent, CompanyDetailComponent, 
-            MethodologySwitcherComponent, SectorAnalyticsComponent, CompanyComparisonComponent],
+  imports: [CommonModule, LeaderboardComponent, CompanyDetailComponent,
+            MethodologySwitcherComponent, SectorAnalyticsComponent,
+            CompanyComparisonComponent, PortfolioAnalyticsComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

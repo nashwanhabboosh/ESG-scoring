@@ -14,6 +14,10 @@
          [class.active]="currentView === 'comparison'">
         Compare
       </a>
+      <a (click)="navigateTo('portfolio')"
+         [class.active]="currentView === 'portfolio'">
+        Portfolio
+      </a>
       <a (click)="navigateTo('methodology')"
          [class.active]="currentView === 'methodology'">
         Methodology
@@ -40,5 +44,8 @@
     <app-company-comparison
       *ngIf="currentView === 'comparison'">
     </app-company-comparison>
+    <app-portfolio-analytics
+      *ngIf="currentView === 'portfolio'">
+    </app-portfolio-analytics>
   </main>
 </div>
