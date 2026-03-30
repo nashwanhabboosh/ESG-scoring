@@ -1,0 +1,103 @@
+<div class="sector-analytics">
+  <h2>Sector Analytics</h2>
+  <p class="subtitle">Average ESG scores aggregated by sector across all companies.</p>
+
+  <div *ngIf="loading" class="loading">Loading sectors...</div>
+
+  <div *ngIf="!loading" class="layout">
+
+    <div class="sector-list">
+      <div
+        *ngFor="let sector of sectors"
+        class="sector-card"
+        [class.selected]="selectedSector?.sector === sector.sector"
+        (click)="selectSector(sector)">
+        <div class="sector-name">{{ sector.sector }}</div>
+        <div class="sector-meta">{{ sector.companyCount }} companies</div>
+        <div class="sector-score" [class]="scoreClass(sector.avgCompositeScore)">
+          {{ sector.avgCompositeScore }}
+        </div>
+        <div class="sector-bars">
+          <div class="mini-bar">
+            <div class="mini-fill e-fill" [style.width.%]="sector.avgEnvironmentalScore"></div>
+          </div>
+          <div class="mini-bar">
+            <div class="mini-fill s-fill" [style.width.%]="sector.avgSocialScore"></div>
+          </div>
+          <div class="mini-bar">
+            <div class="mini-fill g-fill" [style.width.%]="sector.avgGovernanceScore"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sector-detail" *ngIf="selectedSector">
+      <h3>{{ selectedSector.sector }}</h3>
+
+      <div class="avg-scores">
+        <div class="avg-card">
+          <div class="avg-label">Environmental</div>
+          <div class="avg-value e-color" [class]="scoreClass(selectedSector.avgEnvironmentalScore)">
+            {{ selectedSector.avgEnvironmentalScore }}
+          </div>
+        </div>
+        <div class="avg-card">
+          <div class="avg-label">Social</div>
+          <div class="avg-value" [class]="scoreClass(selectedSector.avgSocialScore)">
+            {{ selectedSector.avgSocialScore }}
+          </div>
+        </div>
+        <div class="avg-card">
+          <div class="avg-label">Governance</div>
+          <div class="avg-value" [class]="scoreClass(selectedSector.avgGovernanceScore)">
+            {{ selectedSector.avgGovernanceScore }}
+          </div>
+        </div>
+        <div class="avg-card composite">
+          <div class="avg-label">Composite Avg</div>
+          <div class="avg-value" [class]="scoreClass(selectedSector.avgCompositeScore)">
+            {{ selectedSector.avgCompositeScore }}
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <h4>ESG Pillar Distribution</h4>
+        <div class="chart-container">
+          <canvas #sectorChart></canvas>
+        </div>
+      </div>
+
+      <div class="company-table">
+        <h4>Companies in {{ selectedSector.sector }}</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Ticker</th>
+              <th>E</th>
+              <th>S</th>
+              <th>G</th>
+              <th>Composite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of selectedSector.companies">
+              <td>{{ c.name }}</td>
+              <td class="ticker">{{ c.ticker }}</td>
+              <td [class]="scoreClass(c.environmentalScore)">{{ c.environmentalScore }}</td>
+              <td [class]="scoreClass(c.socialScore)">{{ c.socialScore }}</td>
+              <td [class]="scoreClass(c.governanceScore)">{{ c.governanceScore }}</td>
+              <td class="composite-cell" [class]="scoreClass(c.compositeScore)">{{ c.compositeScore }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sector-placeholder" *ngIf="!selectedSector">
+      <p>Select a sector to view detailed analytics</p>
+    </div>
+
+  </div>
+</div>

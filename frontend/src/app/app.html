@@ -6,28 +6,32 @@
          [class.active]="currentView === 'leaderboard' || currentView === 'company'">
         Leaderboard
       </a>
+      <a (click)="navigateTo('sectors')"
+         [class.active]="currentView === 'sectors'">
+        Sector Analytics
+      </a>
       <a (click)="navigateTo('methodology')"
          [class.active]="currentView === 'methodology'">
         Methodology
       </a>
     </div>
   </nav>
-
   <main class="content">
     <app-leaderboard
       *ngIf="currentView === 'leaderboard'"
       (companySelected)="onCompanySelected($event)">
     </app-leaderboard>
-
     <app-company-detail
       *ngIf="currentView === 'company' && selectedCompanyId"
       [companyId]="selectedCompanyId"
       (back)="onBack()">
     </app-company-detail>
-
     <app-methodology-switcher
       *ngIf="currentView === 'methodology'"
       (methodologyChanged)="onMethodologyChanged()">
     </app-methodology-switcher>
+    <app-sector-analytics
+      *ngIf="currentView === 'sectors'">
+    </app-sector-analytics>
   </main>
 </div>

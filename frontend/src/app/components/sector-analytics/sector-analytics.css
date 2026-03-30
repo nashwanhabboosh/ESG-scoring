@@ -1,0 +1,103 @@
+.sector-analytics { padding: 24px; }
+
+.subtitle { color: #666; font-size: 14px; margin-bottom: 24px; }
+
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.sector-list { display: flex; flex-direction: column; gap: 10px; }
+
+.sector-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.sector-card:hover { border-color: #1a1a2e; background: #f8f8ff; }
+.sector-card.selected { border-color: #1a1a2e; background: #f0f0ff; }
+
+.sector-name { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+.sector-meta { font-size: 12px; color: #888; margin-bottom: 6px; }
+
+.sector-score {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.mini-bar {
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  margin-bottom: 3px;
+  overflow: hidden;
+}
+
+.mini-fill { height: 100%; border-radius: 2px; }
+.e-fill { background: #2e7d32; }
+.s-fill { background: #1565c0; }
+.g-fill { background: #6a1b9a; }
+
+.sector-detail {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.sector-detail h3 { margin: 0 0 20px 0; font-size: 20px; }
+.sector-detail h4 { margin: 0 0 16px 0; font-size: 15px; color: #444; }
+
+.avg-scores {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.avg-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.avg-card.composite { background: #f0f0ff; }
+.avg-label { font-size: 12px; color: #666; margin-bottom: 6px; }
+.avg-value { font-size: 28px; font-weight: 800; }
+
+.chart-section { margin-bottom: 32px; }
+
+.chart-container {
+  height: 260px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #e0e0e0; font-size: 12px; color: #666; text-transform: uppercase; }
+td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+.ticker { font-family: monospace; font-size: 13px; color: #555; }
+.composite-cell { font-weight: 700; }
+
+.score-high { color: #2e7d32; }
+.score-mid { color: #e65100; }
+.score-low { color: #c62828; }
+
+.sector-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #999;
+  font-size: 15px;
+  border: 2px dashed #e0e0e0;
+  border-radius: 8px;
+}
+
+.loading { padding: 24px; color: #666; }

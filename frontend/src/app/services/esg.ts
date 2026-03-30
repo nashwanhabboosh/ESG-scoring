@@ -22,6 +22,26 @@ export interface ESGScorecard {
   timestamp: string;
 }
 
+export interface CompanyScore {
+  companyId: string;
+  name: string;
+  ticker: string;
+  environmentalScore: number;
+  socialScore: number;
+  governanceScore: number;
+  compositeScore: number;
+}
+
+export interface SectorSummary {
+  sector: string;
+  avgEnvironmentalScore: number;
+  avgSocialScore: number;
+  avgGovernanceScore: number;
+  avgCompositeScore: number;
+  companyCount: number;
+  companies: CompanyScore[];
+}
+
 export interface ScoringMethodology {
   id: string;
   name: string;
@@ -59,6 +79,15 @@ export class EsgService {
 
   getCompany(id: string): Observable<Company> {
     return this.http.get<Company>(`${this.baseUrl}/companies/${id}`);
+  }
+
+  // Sectors
+  getSectors(): Observable<SectorSummary[]> {
+    return this.http.get<SectorSummary[]>(`${this.baseUrl}/sectors`);
+  }
+
+  getSectorDetail(sector: string): Observable<SectorSummary> {
+    return this.http.get<SectorSummary>(`${this.baseUrl}/sectors/${encodeURIComponent(sector)}`);
   }
 
   // Scores
