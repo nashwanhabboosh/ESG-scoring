@@ -1,0 +1,90 @@
+<div class="comparison">
+  <h2>Company Comparison</h2>
+  <p class="subtitle">Select 2–3 companies to compare their ESG scores side by side.</p>
+
+  <div class="selector-area">
+    <div class="chips">
+      <div
+        *ngFor="let company of selectedCompanies; let i = index"
+        class="chip"
+        [style.border-color]="colorForIndex(i)">
+        <span class="chip-ticker" [style.color]="colorForIndex(i)">{{ company.ticker }}</span>
+        <span class="chip-name">{{ company.name }}</span>
+        <button class="chip-remove" (click)="removeCompany(company)">✕</button>
+      </div>
+      <div class="chip-placeholder" *ngIf="selectedCompanies.length < MAX_COMPANIES">
+        {{ selectedCompanies.length === 0 ? 'No companies selected' : 'Add another company' }}
+      </div>
+    </div>
+
+    <div class="search-box" *ngIf="selectedCompanies.length < MAX_COMPANIES">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Search by name or ticker..."
+        class="search-input" />
+      <div class="dropdown" *ngIf="searchQuery.length > 0">
+        <div
+          *ngFor="let company of filteredCompanies | slice:0:8"
+          class="dropdown-item"
+          (click)="selectCompany(company)">
+          <span class="dropdown-ticker">{{ company.ticker }}</span>
+          <span class="dropdown-name">{{ company.name }}</span>
+          <span class="dropdown-sector">{{ company.sector }}</span>
+        </div>
+        <div class="dropdown-empty" *ngIf="filteredCompanies.length === 0">
+          No results
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading comparison...</div>
+
+  <div *ngIf="!loading && scorecards.length >= 2" class="results">
+
+    <div class="chart-section">
+      <div class="chart-container">
+        <canvas #comparisonChart></canvas>
+      </div>
+    </div>
+
+    <div class="score-cards">
+      <div
+        *ngFor="let company of selectedCompanies; let i = index"
+        class="company-card"
+        [style.border-top-color]="colorForIndex(i)">
+        <div class="company-card-header">
+          <span class="card-ticker" [style.color]="colorForIndex(i)">{{ company.ticker }}</span>
+          <span class="card-name">{{ company.name }}</span>
+          <span class="card-sector">{{ company.sector }}</span>
+        </div>
+        <ng-container *ngIf="getScorecardForCompany(company.id) as sc">
+          <div class="card-scores">
+            <div class="card-score-row">
+              <span class="score-label">Environmental</span>
+              <span class="score-val" [class]="scoreClass(sc.environmentalScore)">{{ sc.environmentalScore }}</span>
+            </div>
+            <div class="card-score-row">
+              <span class="score-label">Social</span>
+              <span class="score-val" [class]="scoreClass(sc.socialScore)">{{ sc.socialScore }}</span>
+            </div>
+            <div class="card-score-row">
+              <span class="score-label">Governance</span>
+              <span class="score-val" [class]="scoreClass(sc.governanceScore)">{{ sc.governanceScore }}</span>
+            </div>
+            <div class="card-score-row composite-row">
+              <span class="score-label">Composite</span>
+              <span class="score-val composite-val" [class]="scoreClass(sc.compositeScore)">{{ sc.compositeScore }}</span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="placeholder" *ngIf="!loading && selectedCompanies.length < 2">
+    <p>Select at least 2 companies to see a comparison</p>
+  </div>
+</div>

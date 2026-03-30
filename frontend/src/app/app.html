@@ -10,6 +10,10 @@
          [class.active]="currentView === 'sectors'">
         Sector Analytics
       </a>
+      <a (click)="navigateTo('comparison')"
+         [class.active]="currentView === 'comparison'">
+        Compare
+      </a>
       <a (click)="navigateTo('methodology')"
          [class.active]="currentView === 'methodology'">
         Methodology
@@ -33,5 +37,8 @@
     <app-sector-analytics
       *ngIf="currentView === 'sectors'">
     </app-sector-analytics>
+    <app-company-comparison
+      *ngIf="currentView === 'comparison'">
+    </app-company-comparison>
   </main>
 </div>

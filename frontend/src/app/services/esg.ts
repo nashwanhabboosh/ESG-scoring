@@ -81,6 +81,11 @@ export class EsgService {
     return this.http.get<Company>(`${this.baseUrl}/companies/${id}`);
   }
 
+  compareCompanies(ids: string[]): Observable<ESGScorecard[]> {
+    const params = ids.map(id => `ids=${id}`).join('&');
+    return this.http.get<ESGScorecard[]>(`${this.baseUrl}/scores/compare?${params}`);
+  }
+
   // Sectors
   getSectors(): Observable<SectorSummary[]> {
     return this.http.get<SectorSummary[]>(`${this.baseUrl}/sectors`);
@@ -121,8 +126,8 @@ export class EsgService {
   }
 
   createMethodology(methodology: ScoringMethodology): Observable<ScoringMethodology> {
-  return this.http.post<ScoringMethodology>(`${this.baseUrl}/methodologies`, methodology, { headers: this.authHeaders });
-}
+    return this.http.post<ScoringMethodology>(`${this.baseUrl}/methodologies`, methodology, { headers: this.authHeaders });
+  }
 
   // Metrics
   getMetrics(companyId: string): Observable<RawMetric[]> {

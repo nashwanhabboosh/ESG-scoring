@@ -4,13 +4,15 @@ import { LeaderboardComponent } from './components/leaderboard/leaderboard';
 import { CompanyDetailComponent } from './components/company-detail/company-detail';
 import { MethodologySwitcherComponent } from './components/methodology-switcher/methodology-switcher';
 import { SectorAnalyticsComponent } from './components/sector-analytics/sector-analytics';
+import { CompanyComparisonComponent } from './components/company-comparison/company-comparison';
 
-type View = 'leaderboard' | 'company' | 'methodology' | 'sectors';
+type View = 'leaderboard' | 'company' | 'methodology' | 'sectors' | 'comparison';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LeaderboardComponent, CompanyDetailComponent, MethodologySwitcherComponent, SectorAnalyticsComponent],
+  imports: [CommonModule, LeaderboardComponent, CompanyDetailComponent, 
+            MethodologySwitcherComponent, SectorAnalyticsComponent, CompanyComparisonComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
